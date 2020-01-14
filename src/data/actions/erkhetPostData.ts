@@ -1,16 +1,17 @@
+import { sendRPCMessage } from '../../messageBroker';
 import { IShapeDocument } from '../../models/definitions/Automations';
-import { sendRequest } from './utils';
+// import { sendRequest } from './utils';
 
-const urlPostData = async (shape: IShapeDocument, data: any, result: object) => {
+const erkhetPostData = async (shape: IShapeDocument, data: any, result: object) => {
   if (!shape.config.url) {
     return result;
   }
 
-  const url = shape.config.url;
-  const params = {
-    kind: shape.config.apiToken,
-    // is_json: True
-  };
+  // const url = shape.config.url;
+  // const params = {
+  // kind: shape.config.apiToken,
+  // is_json: True
+  // };
   const orderInfos = [
     {
       date: new Date().toISOString().slice(0, 10),
@@ -30,22 +31,18 @@ const urlPostData = async (shape: IShapeDocument, data: any, result: object) => 
 
   const postData = {
     userEmail: shape.config.userEmail,
+    token: shape.config.apiToken,
     apiKey: shape.config.apiKey,
     apiSecret: shape.config.apiSecret,
     orderInfos: JSON.stringify(orderInfos),
   };
 
-  const method = 'POST';
-
-  const response = await sendRequest({
-    url,
-    headerType: 'application/x-www-form-urlencoded',
-    method,
-    body: postData,
-    params,
+  const response = await sendRPCMessage({
+    action: 'get-response-send-order-info',
+    data: postData,
   });
 
   return response;
 };
 
-export default urlPostData;
+export default erkhetPostData;

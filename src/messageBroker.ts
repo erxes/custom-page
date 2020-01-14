@@ -14,6 +14,8 @@ let channel;
 export const sendRPCMessage = async (message): Promise<any> => {
   const response = await new Promise((resolve, reject) => {
     const correlationId = uuid();
+    console.log('correlationId', correlationId);
+    console.log('messssage postData', message);
 
     return channel.assertQueue('', { exclusive: true }).then(q => {
       channel.consume(
@@ -38,7 +40,7 @@ export const sendRPCMessage = async (message): Promise<any> => {
         { noAck: true },
       );
 
-      channel.sendToQueue('rpc_queue', Buffer.from(JSON.stringify(message)), {
+      channel.sendToQueue('rpc_queue:erxes-automation', Buffer.from(JSON.stringify(message)), {
         correlationId,
         replyTo: q.queue,
       });
@@ -79,7 +81,6 @@ const initConsumer = async () => {
             data: triggerResponse,
           };
         }
-        console.log('zaaaaaaaaa');
 
         channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(response)), {
           correlationId: msg.properties.correlationId,

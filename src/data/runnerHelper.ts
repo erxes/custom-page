@@ -2,7 +2,7 @@ import { Shapes } from '../models';
 import { IShapeDocument } from '../models/definitions/Automations';
 import { ACTION_KIND, CONDITION_KIND, QUEUE_STATUS } from '../models/definitions/constants';
 import { Queues } from '../models/Queue';
-import { delay, urlPostData } from './actions';
+import { delay, erkhetPostData } from './actions';
 import { checkDealField } from './conditions/checkDealField';
 
 const actionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
@@ -12,7 +12,7 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
       break;
 
     case ACTION_KIND.URL_POST_DATA:
-      result = await urlPostData(shape, data, result);
+      result = await erkhetPostData(shape, data, result);
       break;
 
     case ACTION_KIND.SEND_EMAIL:

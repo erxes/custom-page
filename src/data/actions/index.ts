@@ -1,4 +1,4 @@
 import delay from './delay';
-import urlPostData from './urlPostData';
+import erkhetPostData from './erkhetPostData';
 
-export { urlPostData, delay };
+export { erkhetPostData, delay };
