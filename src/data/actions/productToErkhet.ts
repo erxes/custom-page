@@ -15,7 +15,6 @@ const productToErkhet = async (shape: IShapeDocument, data: any, result: object)
     categoryCode: productData.categoryCode,
     defaultCategory: shape.config.categoryCode,
   };
-  console.log(invData);
 
   const postData = {
     userEmail: shape.config.userEmail,
