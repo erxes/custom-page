@@ -14,8 +14,6 @@ let channel;
 export const sendRPCMessage = async (message): Promise<any> => {
   const response = await new Promise((resolve, reject) => {
     const correlationId = uuid();
-    console.log('correlationId', correlationId);
-    console.log('messssage postData', message);
 
     return channel.assertQueue('', { exclusive: true }).then(q => {
       channel.consume(
@@ -51,8 +49,8 @@ export const sendRPCMessage = async (message): Promise<any> => {
 };
 
 export const sendMessage = async (data?: any) => {
-  await channel.assertQueue('erxes-automations-notification');
-  await channel.sendToQueue('erxes-automations-notification', Buffer.from(JSON.stringify(data || {})));
+  await channel.assertQueue('rpc_queue:erxes-automation');
+  await channel.sendToQueue('rpc_queue:erxes-automation', Buffer.from(JSON.stringify(data || {})));
 };
 
 const initConsumer = async () => {

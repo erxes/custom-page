@@ -26,6 +26,9 @@ export const checkTrigger = async (postData: any): Promise<any> => {
       configFilter = changeDeal(postData);
       break;
     }
+    case TRIGGER_KIND.CHANGE_LIST_PRODUCT: {
+      break;
+    }
     case TRIGGER_KIND.CHANGE_TASK: {
       configFilter = {};
     }

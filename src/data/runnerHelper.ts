@@ -2,7 +2,7 @@ import { Shapes } from '../models';
 import { IShapeDocument } from '../models/definitions/Automations';
 import { ACTION_KIND, CONDITION_KIND, QUEUE_STATUS } from '../models/definitions/constants';
 import { Queues } from '../models/Queue';
-import { delay, erkhetPostData } from './actions';
+import { delay, erkhetPostData, productToErkhet } from './actions';
 import { checkDealField } from './conditions/checkDealField';
 
 const actionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
@@ -11,8 +11,12 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
       result = delay(shape, data, result);
       break;
 
-    case ACTION_KIND.URL_POST_DATA:
+    case ACTION_KIND.ERKHET_POST_DATA:
       result = await erkhetPostData(shape, data, result);
+      break;
+
+    case ACTION_KIND.PRODUCT_TO_ERKHET:
+      await productToErkhet(shape, data, result);
       break;
 
     case ACTION_KIND.SEND_EMAIL:
@@ -79,5 +83,10 @@ export const asyncAutomationRunner = async (trigger: IShapeDocument, data: any) 
 };
 
 export const bgAutomationRunner = async (trigger, data: any) => {
-  await Queues.createQueue({ shapeId: trigger._id, postData: data, status: QUEUE_STATUS.WORKING });
+  const queue = await Queues.createQueue({ shapeId: trigger._id, postData: data, status: QUEUE_STATUS.WORKING });
+
+  for (const nextShapeId of trigger.toArrow) {
+    const nextShape = await Shapes.getShape(nextShapeId);
+    sequencing(nextShape, data, queue._id, {});
+  }
 };

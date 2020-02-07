@@ -24,6 +24,7 @@ export const TRIGGER_KIND = {
   CHANGE_DEAL: 'changeDeal',
   CHANGE_TICKET: 'changeTicket',
   CHANGE_TASK: 'changeTask',
+  CHANGE_LIST_PRODUCT: 'changeListProduct',
   // etc
 
   ALL: [
@@ -36,6 +37,7 @@ export const TRIGGER_KIND = {
     'changeDeal',
     'changeTicket',
     'changeTask',
+    'changeListProduct',
   ],
 };
 
@@ -44,7 +46,8 @@ export const ACTION_KIND = {
   EJECT_AUTOMATION: 'ejectAutomation',
   SEND_EMAIL: 'sendEmail',
   SEND_NOTIFICATION: 'sendNotification',
-  URL_POST_DATA: 'erkhetPostData',
+  ERKHET_POST_DATA: 'erkhetPostData',
+  PRODUCT_TO_ERKHET: 'productToErkhet',
   ADD_CUSTOMER: 'addCustomer',
   UPDATE_CUSTOMER: 'updateCustomer',
   SEND_MESSAGE: 'sendMessage',
@@ -70,6 +73,7 @@ export const ACTION_KIND = {
     'sendEmail',
     'sendNotification',
     'erkhetPostData',
+    'productToErkhet',
     'addCustomer',
     'updateCustomer',
     'sendMessage',
