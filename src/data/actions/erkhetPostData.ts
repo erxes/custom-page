@@ -28,7 +28,7 @@ const erkhetPostData = async (shape: IShapeDocument, data: any, result: object) 
       count: productData.quantity,
       amount: productData.amount,
       discount: productData.discount,
-      inventoryCode: productCodeById[productData.productId],
+      inventoryCode: productCodeById[productData.productId] || '',
     });
   }
 
@@ -67,7 +67,7 @@ const erkhetPostData = async (shape: IShapeDocument, data: any, result: object) 
     apiSecret: shape.config.apiSecret,
     orderInfos: JSON.stringify(orderInfos),
   };
-
+  console.log(postData);
   const response = await sendRPCMessage({
     action: 'get-response-send-order-info',
     data: postData,
