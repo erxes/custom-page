@@ -5,15 +5,18 @@ import { IShapeDocument } from '../../models/definitions/Automations';
 const productToErkhet = async (shape: IShapeDocument, data: any, result: object) => {
   const productData = data.doc;
   const invData = {
+    action: data.action,
     oldCode: data.oldCode || '',
-    code: productData.code || '',
-    name: productData.name || '',
-    measureUnit: productData.sku || '',
-    unitPrice: productData.unitPrice || 0,
-    costAccount: shape.config.costAccount,
-    saleAccount: shape.config.saleAccount,
-    categoryCode: productData.categoryCode,
-    defaultCategory: shape.config.categoryCode,
+    object: {
+      code: productData.code || '',
+      name: productData.name || '',
+      measureUnit: productData.sku || '',
+      unitPrice: productData.unitPrice || 0,
+      costAccount: shape.config.costAccount,
+      saleAccount: shape.config.saleAccount,
+      categoryCode: productData.categoryCode,
+      defaultCategory: shape.config.categoryCode,
+    },
   };
 
   const postData = {
