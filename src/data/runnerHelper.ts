@@ -2,7 +2,7 @@ import { Shapes } from '../models';
 import { IShapeDocument } from '../models/definitions/Automations';
 import { ACTION_KIND, CONDITION_KIND, QUEUE_STATUS } from '../models/definitions/constants';
 import { Queues } from '../models/Queue';
-import { delay, erkhetPostData, productToErkhet } from './actions';
+import { delay, erkhetPostData, inventoryToErxes, productToErkhet } from './actions';
 import { checkDealField } from './conditions/checkDealField';
 
 const actionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
@@ -17,6 +17,10 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
 
     case ACTION_KIND.PRODUCT_TO_ERKHET:
       await productToErkhet(shape, data, result);
+      break;
+
+    case ACTION_KIND.INVENTORY_TO_ERXES:
+      await inventoryToErxes(shape, data, result);
       break;
 
     case ACTION_KIND.SEND_EMAIL:

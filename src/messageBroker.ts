@@ -38,7 +38,7 @@ export const sendRPCMessage = async (message): Promise<any> => {
         { noAck: true },
       );
 
-      channel.sendToQueue('rpc_queue:erxes-automation', Buffer.from(JSON.stringify(message)), {
+      channel.sendToQueue('send_message:erxes-automation', Buffer.from(JSON.stringify(message)), {
         correlationId,
         replyTo: q.queue,
       });
@@ -48,9 +48,9 @@ export const sendRPCMessage = async (message): Promise<any> => {
   return response;
 };
 
-export const sendMessage = async (data?: any) => {
-  await channel.assertQueue('rpc_queue:erxes-automation');
-  await channel.sendToQueue('rpc_queue:erxes-automation', Buffer.from(JSON.stringify(data || {})));
+export const sendMessage = async (queueName: string, data?: any) => {
+  await channel.assertQueue(queueName);
+  await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data || {})));
 };
 
 const initConsumer = async () => {
@@ -60,9 +60,9 @@ const initConsumer = async () => {
     channel = await conn.createChannel();
 
     // listen for rpc queue =========
-    await channel.assertQueue('rpc_queue:erxes-api');
+    await channel.assertQueue('rpc_queue:erxes-automation');
 
-    channel.consume('rpc_queue:erxes-api', async msg => {
+    channel.consume('rpc_queue:erxes-automation', async msg => {
       if (msg !== null) {
         debugBase(`Received rpc queue message ${msg.content.toString()}`);
 

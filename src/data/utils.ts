@@ -31,6 +31,11 @@ export const checkTrigger = async (postData: any): Promise<any> => {
     }
     case TRIGGER_KIND.CHANGE_TASK: {
       configFilter = {};
+      break;
+    }
+    case TRIGGER_KIND.CHANGE_LIST_INVENTORY: {
+      configFilter = {};
+      break;
     }
     default:
       return {};
@@ -43,7 +48,7 @@ export const checkTrigger = async (postData: any): Promise<any> => {
   });
 
   const syncTriggers = await Shapes.find({
-    ...getMainSelector(kind),
+    ...(await getMainSelector(kind)),
     config: { ...configFilter },
     async: false,
   });

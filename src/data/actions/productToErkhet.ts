@@ -6,13 +6,14 @@ const productToErkhet = async (shape: IShapeDocument, data: any, result: object)
   const objectData = data.doc;
   let sendData = {};
 
+  const { API_MONGO_URL = '' } = process.env;
+  const options = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+  };
+  const apiMongoClient = await mongoose.createConnection(API_MONGO_URL, options);
+
   if (data.action.includes('productCategory')) {
-    const { API_MONGO_URL = '' } = process.env;
-    const options = {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-    };
-    const apiMongoClient = await mongoose.createConnection(API_MONGO_URL, options);
     const apiProductCategories = apiMongoClient.db.collection('product_categories');
     const productCategories = await apiProductCategories.find({ _id: objectData.parentId }).toArray();
 
@@ -26,6 +27,9 @@ const productToErkhet = async (shape: IShapeDocument, data: any, result: object)
       },
     };
   } else {
+    const apiProductCategories = apiMongoClient.db.collection('product_categories');
+    const productCategories = await apiProductCategories.find({ _id: objectData.categoryId }).toArray();
+
     sendData = {
       action: data.action,
       oldCode: data.oldCode || '',
@@ -36,7 +40,7 @@ const productToErkhet = async (shape: IShapeDocument, data: any, result: object)
         unitPrice: objectData.unitPrice || 0,
         costAccount: shape.config.costAccount,
         saleAccount: shape.config.saleAccount,
-        categoryCode: objectData.categoryCode,
+        categoryCode: productCategories ? productCategories[0].code : '',
         defaultCategory: shape.config.categoryCode,
       },
     };
@@ -50,7 +54,7 @@ const productToErkhet = async (shape: IShapeDocument, data: any, result: object)
     orderInfos: JSON.stringify(sendData),
   };
 
-  sendMessage({
+  sendMessage('send_message:erxes-automation', {
     action: 'product-change',
     data: postData,
   });
