@@ -6,5 +6,5 @@ export const checkDealField = (shape: IShapeDocument, data: any) => {
     return Shapes.getShape(shape.toArrow[0]);
   }
 
-  return false;
+  return null;
 };

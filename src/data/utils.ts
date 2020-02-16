@@ -37,6 +37,10 @@ export const checkTrigger = async (postData: any): Promise<any> => {
       configFilter = {};
       break;
     }
+    case TRIGGER_KIND.CHANGE_LIST_CUSTOMER_ERKHET: {
+      configFilter = {};
+      break;
+    }
     default:
       return {};
   }

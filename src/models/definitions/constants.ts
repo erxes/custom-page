@@ -26,6 +26,7 @@ export const TRIGGER_KIND = {
   CHANGE_TASK: 'changeTask',
   CHANGE_LIST_PRODUCT: 'changeListProduct',
   CHANGE_LIST_INVENTORY: 'changeListInventory',
+  CHANGE_LIST_CUSTOMER_ERKHET: 'changeListCustomerErkhet',
   // etc
 
   ALL: [
@@ -40,6 +41,7 @@ export const TRIGGER_KIND = {
     'changeTask',
     'changeListProduct',
     'changeListInventory',
+    'changeListCustomerErkhet',
   ],
 };
 
@@ -51,8 +53,8 @@ export const ACTION_KIND = {
   ERKHET_POST_DATA: 'erkhetPostData',
   PRODUCT_TO_ERKHET: 'productToErkhet',
   INVENTORY_TO_ERXES: 'inventoryToErxes',
-  ADD_CUSTOMER: 'addCustomer',
-  UPDATE_CUSTOMER: 'updateCustomer',
+  CUSTOMER_TO_ERXES: 'customerToErxes',
+  COMPANY_TO_ERXES: 'companyToErxes',
   SEND_MESSAGE: 'sendMessage',
   ADD_DEAL: 'addDeal',
   UPDATE_DEAL_STAGE: 'updateDealStage',
@@ -78,8 +80,8 @@ export const ACTION_KIND = {
     'erkhetPostData',
     'productToErkhet',
     'inventoryToErxes',
-    'addCustomer',
-    'updateCustomer',
+    'customerToErxes',
+    'companyToErxes',
     'sendMessage',
     'addDeal',
     'updateDealStage',
@@ -100,6 +102,7 @@ export const ACTION_KIND = {
 };
 
 export const CONDITION_KIND = {
+  CHECK_COMPANY_EBARIMT: 'checkCompanyEbarimt',
   CHECK_EMAIL_STATUS: 'checkEmailStatus',
   CHECK_FIELD: 'checkField',
   CHECK_CUSTOMER_FIELD: 'checkCustomerField',
@@ -111,6 +114,7 @@ export const CONDITION_KIND = {
   CHECK_TICKET_FIELD: 'checkTicketField',
 
   ALL: [
+    'checkCompanyEbarimt',
     'checkEmailStatus',
     'checkField',
     'checkCustomerField',

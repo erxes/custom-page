@@ -2,7 +2,8 @@ import { Shapes } from '../models';
 import { IShapeDocument } from '../models/definitions/Automations';
 import { ACTION_KIND, CONDITION_KIND, QUEUE_STATUS } from '../models/definitions/constants';
 import { Queues } from '../models/Queue';
-import { delay, erkhetPostData, inventoryToErxes, productToErkhet } from './actions';
+import { companyToErxes, customerToErxes, delay, erkhetPostData, inventoryToErxes, productToErkhet } from './actions';
+import { checkCompanyEbarimt } from './conditions/checkCompanyEbarimt';
 import { checkDealField } from './conditions/checkDealField';
 
 const actionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
@@ -23,10 +24,15 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
       await inventoryToErxes(shape, data, result);
       break;
 
-    case ACTION_KIND.SEND_EMAIL:
+    case ACTION_KIND.COMPANY_TO_ERXES:
+      await companyToErxes(shape, data, result);
       break;
 
-    case ACTION_KIND.ADD_CUSTOMER:
+    case ACTION_KIND.CUSTOMER_TO_ERXES:
+      await customerToErxes(shape, data, result);
+      break;
+
+    case ACTION_KIND.SEND_EMAIL:
       break;
 
     case ACTION_KIND.SEND_MESSAGE:
@@ -48,15 +54,22 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
 };
 
 const conditionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
-  let conditionShape: IShapeDocument | boolean = false;
+  let conditionShape: IShapeDocument = null;
   switch (shape.kind) {
     case CONDITION_KIND.CHECK_DEAL_FIELD:
       conditionShape = await checkDealField(shape, data);
-
-      if (conditionShape) {
-        sequencing(conditionShape, data, parentId, result);
-      }
       break;
+
+    case CONDITION_KIND.CHECK_COMPANY_EBARIMT:
+      conditionShape = await checkCompanyEbarimt(shape, data);
+      break;
+
+    default:
+      conditionShape = null;
+  }
+
+  if (conditionShape) {
+    sequencing(conditionShape, data, parentId, result);
   }
 };
 
