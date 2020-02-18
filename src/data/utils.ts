@@ -29,15 +29,19 @@ export const checkTrigger = async (postData: any): Promise<any> => {
     case TRIGGER_KIND.CHANGE_LIST_PRODUCT: {
       break;
     }
-    case TRIGGER_KIND.CHANGE_TASK: {
-      configFilter = {};
-      break;
-    }
     case TRIGGER_KIND.CHANGE_LIST_INVENTORY: {
       configFilter = {};
       break;
     }
     case TRIGGER_KIND.CHANGE_LIST_CUSTOMER_ERKHET: {
+      configFilter = {};
+      break;
+    }
+    case TRIGGER_KIND.CHANGE_LIST_CUSTOMER: {
+      configFilter = {};
+      break;
+    }
+    case TRIGGER_KIND.CHANGE_LIST_COMPANY: {
       configFilter = {};
       break;
     }

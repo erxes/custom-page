@@ -2,17 +2,12 @@ import { Shapes } from '../../models';
 import { IShapeDocument } from '../../models/definitions/Automations';
 import { sendRequest } from '../actions/utils';
 
-export const checkCompanyEbarimt = async (shape: IShapeDocument, data: any) => {
+export const checkCompanyValidEbarimt = async (shape: IShapeDocument, data: any) => {
   if (!shape.toArrow && !data) {
     return null;
   }
 
-  const objectData = JSON.parse(data.object)[0];
-  const doc = objectData.fields;
-
-  if (objectData.model !== 'customers.customer') {
-    return null;
-  }
+  const doc = data.doc;
 
   let result = false;
   if (doc.code.length === 7) {

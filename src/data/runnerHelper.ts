@@ -2,9 +2,18 @@ import { Shapes } from '../models';
 import { IShapeDocument } from '../models/definitions/Automations';
 import { ACTION_KIND, CONDITION_KIND, QUEUE_STATUS } from '../models/definitions/constants';
 import { Queues } from '../models/Queue';
-import { companyToErxes, customerToErxes, delay, erkhetPostData, inventoryToErxes, productToErkhet } from './actions';
-import { checkCompanyEbarimt } from './conditions/checkCompanyEbarimt';
-import { checkDealField } from './conditions/checkDealField';
+import {
+  companyToErxes,
+  customerToErkhet,
+  customerToErxes,
+  delay,
+  erkhetPostData,
+  inventoryToErxes,
+  productToErkhet,
+  sendNotification,
+} from './actions';
+import { checkCompanyValidEbarimt } from './conditions/checkCompanyValidEbarimt';
+import { checkCustomerIsEbarimtCompany } from './conditions/checkCustomerIsEbarimtCompany';
 
 const actionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
   switch (shape.kind) {
@@ -32,10 +41,12 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
       await customerToErxes(shape, data, result);
       break;
 
-    case ACTION_KIND.SEND_EMAIL:
+    case ACTION_KIND.CUSTOMER_TO_ERKHET:
+      await customerToErkhet(shape, data, result);
       break;
 
-    case ACTION_KIND.SEND_MESSAGE:
+    case ACTION_KIND.SEND_NOTIFICATION:
+      await sendNotification(shape, data, result);
       break;
   }
 
@@ -56,12 +67,12 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
 const conditionRun = async (shape: IShapeDocument, data: any, parentId: string, result: object) => {
   let conditionShape: IShapeDocument = null;
   switch (shape.kind) {
-    case CONDITION_KIND.CHECK_DEAL_FIELD:
-      conditionShape = await checkDealField(shape, data);
+    case CONDITION_KIND.CHECK_CUSTOMER_IS_EBARIMT_COMPANY:
+      conditionShape = await checkCustomerIsEbarimtCompany(shape, data);
       break;
 
-    case CONDITION_KIND.CHECK_COMPANY_EBARIMT:
-      conditionShape = await checkCompanyEbarimt(shape, data);
+    case CONDITION_KIND.CHECK_COMPANY_VALID_EBARIMT:
+      conditionShape = await checkCompanyValidEbarimt(shape, data);
       break;
 
     default:
