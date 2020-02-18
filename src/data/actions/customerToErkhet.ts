@@ -7,8 +7,15 @@ const customerToErkhet = async (shape: IShapeDocument, data: any, result: object
 
   let name = objectData.primaryName || '';
 
-  name = name ? name.concat(' - ').concat(objectData.firstName || '') : objectData.firstName || '';
-  name = name ? name.concat(' - ').concat(objectData.lastName || '') : objectData.lastName || '';
+  name =
+    name && objectData.firstName
+      ? name.concat(' - ').concat(objectData.firstName || '')
+      : name || objectData.firstName || '';
+  name =
+    name && objectData.lastName
+      ? name.concat(' - ').concat(objectData.lastName || '')
+      : name || objectData.lastName || '';
+  name = name ? name : shape.config.default_name;
 
   sendData = {
     action: data.action,
