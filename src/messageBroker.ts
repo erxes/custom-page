@@ -74,6 +74,7 @@ const initConsumer = async () => {
 
         if (action === 'get-response-check-automation') {
           const triggerResponse = await checkTrigger(data);
+
           response = {
             status: 'success',
             data: triggerResponse,

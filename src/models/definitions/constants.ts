@@ -25,6 +25,7 @@ export const TRIGGER_KIND = {
   CHANGE_LIST_CUSTOMER_ERKHET: 'changeListCustomerErkhet',
   CHANGE_LIST_CUSTOMER: 'changeListCustomer',
   CHANGE_LIST_COMPANY: 'changeListCompany',
+  CHANGE_LIST_WORKER: 'changeListWorker',
   // etc
 
   ALL: [
@@ -40,6 +41,7 @@ export const TRIGGER_KIND = {
     'changeListCustomerErkhet',
     'changeListCustomer',
     'changeListCompany',
+    'changeListWorker',
   ],
 };
 
@@ -54,6 +56,7 @@ export const ACTION_KIND = {
   CUSTOMER_TO_ERXES: 'customerToErxes',
   COMPANY_TO_ERXES: 'companyToErxes',
   CUSTOMER_TO_ERKHET: 'customerToErkhet',
+  WORKER_TO_ERXES: 'workerToErxes',
   // SEND_MESSAGE: 'sendMessage',
   // ADD_DEAL: 'addDeal',
   // UPDATE_DEAL_STAGE: 'updateDealStage',
@@ -82,6 +85,7 @@ export const ACTION_KIND = {
     'customerToErxes',
     'companyToErxes',
     'customerToErkhet',
+    'workerToErxes',
     // 'sendMessage',
     // 'addDeal',
     // 'updateDealStage',

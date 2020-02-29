@@ -11,6 +11,7 @@ import {
   inventoryToErxes,
   productToErkhet,
   sendNotification,
+  workerToErxes,
 } from './actions';
 import { checkCompanyValidEbarimt } from './conditions/checkCompanyValidEbarimt';
 import { checkCustomerIsEbarimtCompany } from './conditions/checkCustomerIsEbarimtCompany';
@@ -47,6 +48,10 @@ const actionRun = async (shape: IShapeDocument, data: any, parentId: string, res
 
     case ACTION_KIND.SEND_NOTIFICATION:
       await sendNotification(shape, data, result);
+      break;
+
+    case ACTION_KIND.WORKER_TO_ERXES:
+      await workerToErxes(shape, data, result);
       break;
   }
 

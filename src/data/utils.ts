@@ -14,6 +14,7 @@ const getMainSelector = async kind => {
 
 export const checkTrigger = async (postData: any): Promise<any> => {
   const kind = postData.kind;
+
   if (!TRIGGER_KIND.ALL.includes(kind)) {
     return { error: 'wrong kind' };
   }
@@ -42,6 +43,10 @@ export const checkTrigger = async (postData: any): Promise<any> => {
       break;
     }
     case TRIGGER_KIND.CHANGE_LIST_COMPANY: {
+      configFilter = {};
+      break;
+    }
+    case TRIGGER_KIND.CHANGE_LIST_WORKER: {
       configFilter = {};
       break;
     }
