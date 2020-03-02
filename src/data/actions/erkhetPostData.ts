@@ -44,7 +44,7 @@ const erkhetPostData = async (shape: IShapeDocument, data: any, result: object) 
     const companies = await apiCompanies.find({ _id: { $in: companyIds } }).toArray();
 
     for (const company of companies) {
-      if (company.code.length === 7) {
+      if (company.code && company.code.length === 7) {
         const checkCompanyRes = await sendRequest({
           url: shape.config.checkCompanyUrl,
           method: 'GET',
@@ -111,7 +111,7 @@ const erkhetPostData = async (shape: IShapeDocument, data: any, result: object) 
     other: 'debtAmount',
   };
 
-  for (const paymentKind of Object.keys(data.deal.paymentsData)) {
+  for (const paymentKind of Object.keys(data.deal.paymentsData || [])) {
     const payment = data.deal.paymentsData[paymentKind];
     payments[configure[paymentKind]] = payment.amount;
   }
@@ -136,7 +136,7 @@ const erkhetPostData = async (shape: IShapeDocument, data: any, result: object) 
     apiSecret: shape.config.apiSecret,
     orderInfos: JSON.stringify(orderInfos),
   };
-  console.log(postData);
+
   const response = await sendRPCMessage({
     action: 'get-response-send-order-info',
     data: postData,
