@@ -30,6 +30,7 @@ export interface IAutomationDocument extends IAutomation, Document {
 
 export interface IShapeDocument extends IShape, Document {
   _id: string;
+  configFormat?: any;
 }
 
 export const automationSchema = new Schema({
