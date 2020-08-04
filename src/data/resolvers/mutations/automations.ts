@@ -60,7 +60,7 @@ const automationMutations = {
   },
 
   /**
-   * Adds shapes object and also adds an activity log
+   * Adds shapes object
    */
   async shapesAdd(_root, args: IShape) {
     const shape = await Shapes.createShape(args);
@@ -76,7 +76,7 @@ const automationMutations = {
   },
 
   /**
-   * Remove a channel
+   * Remove a shape
    */
   async shapesRemove(_root, { _id }: { _id: string }) {
     const removed = await Shapes.removeShape(_id);

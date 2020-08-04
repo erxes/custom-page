@@ -1,7 +1,6 @@
 import * as amqplib from 'amqplib';
 import * as dotenv from 'dotenv';
 import * as uuid from 'uuid';
-import { checkTrigger } from './data/utils';
 import { debugBase } from './debuggers';
 
 dotenv.config();
@@ -14,8 +13,6 @@ let channel;
 export const sendRPCMessage = async (message): Promise<any> => {
   const response = await new Promise((resolve, reject) => {
     const correlationId = uuid();
-    console.log('correlationId', correlationId);
-    console.log('messssage postData', message);
 
     return channel.assertQueue('', { exclusive: true }).then(q => {
       channel.consume(
@@ -40,7 +37,7 @@ export const sendRPCMessage = async (message): Promise<any> => {
         { noAck: true },
       );
 
-      channel.sendToQueue('rpc_queue:erxes-automation', Buffer.from(JSON.stringify(message)), {
+      channel.sendToQueue('send_message:erxes-automation', Buffer.from(JSON.stringify(message)), {
         correlationId,
         replyTo: q.queue,
       });
@@ -50,9 +47,9 @@ export const sendRPCMessage = async (message): Promise<any> => {
   return response;
 };
 
-export const sendMessage = async (data?: any) => {
-  await channel.assertQueue('erxes-automations-notification');
-  await channel.sendToQueue('erxes-automations-notification', Buffer.from(JSON.stringify(data || {})));
+export const sendMessage = async (queueName: string, data?: any) => {
+  await channel.assertQueue(queueName);
+  await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data || {})));
 };
 
 const initConsumer = async () => {
@@ -62,25 +59,13 @@ const initConsumer = async () => {
     channel = await conn.createChannel();
 
     // listen for rpc queue =========
-    await channel.assertQueue('rpc_queue:erxes-api');
+    await channel.assertQueue('rpc_queue:erxes-automation');
 
-    channel.consume('rpc_queue:erxes-api', async msg => {
+    channel.consume('rpc_queue:erxes-automation', async msg => {
       if (msg !== null) {
         debugBase(`Received rpc queue message ${msg.content.toString()}`);
 
-        const parsedObject = JSON.parse(msg.content.toString());
-
-        const { action, data } = parsedObject;
-
         let response = { status: 'error', data: {} };
-
-        if (action === 'get-response-check-automation') {
-          const triggerResponse = await checkTrigger(data);
-          response = {
-            status: 'success',
-            data: triggerResponse,
-          };
-        }
 
         channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(response)), {
           correlationId: msg.properties.correlationId,
