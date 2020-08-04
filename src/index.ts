@@ -52,11 +52,12 @@ app.use((error, _req, res, _next) => {
 const httpServer = createServer(app);
 
 // subscriptions server
-const GRAPHQL_PORT = getEnv({ name: 'GRAPHQL_PORT' });
+const PORT = getEnv({ name: 'PORT' });
 
 apolloServer.installSubscriptionHandlers(httpServer);
-httpServer.listen(GRAPHQL_PORT, () => {
-  debugInit(`GraphQL Server is now running on ${GRAPHQL_PORT}`);
+httpServer.listen(PORT, () => {
+  PORT;
+  debugInit(`GraphQL Server is now running on ${PORT}`);
 });
 
 // GRACEFULL SHUTDOWN
@@ -81,8 +82,3 @@ if (NODE_ENV === 'production') {
     });
   });
 }
-
-const PORT = getEnv({ name: 'PORT' });
-app.listen(PORT, () => {
-  console.log(`Automations server is running on port ${PORT}`);
-});
